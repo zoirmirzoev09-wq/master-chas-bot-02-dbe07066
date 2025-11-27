@@ -1,12 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages } from "lucide-react";
+import { Languages, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Hero = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { theme, setTheme } = useTheme();
 
   const scrollToOrder = () => {
     document.getElementById("quick-order")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const getLanguageLabel = () => {
+    switch (language) {
+      case "ru": return "🇷🇺 RU";
+      case "tj": return "🇹🇯 TJ";
+      case "en": return "🇬🇧 EN";
+      default: return "🇷🇺 RU";
+    }
   };
 
   return (
@@ -14,16 +31,38 @@ export const Hero = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 gradient-hero opacity-10" />
       
-      {/* Language switcher */}
-      <div className="absolute top-6 right-6 z-10">
+      {/* Top controls */}
+      <div className="absolute top-6 right-6 z-10 flex gap-2">
+        {/* Language switcher */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Languages className="w-4 h-4" />
+              {getLanguageLabel()}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setLanguage("ru")}>
+              🇷🇺 Русский
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLanguage("tj")}>
+              🇹🇯 Тоҷикӣ
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setLanguage("en")}>
+              🇬🇧 English
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Theme switcher */}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setLanguage(language === "ru" ? "tj" : "ru")}
-          className="gap-2"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          <Languages className="w-4 h-4" />
-          {language === "ru" ? "🇷🇺 RU" : "🇹🇯 TJ"}
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
         </Button>
       </div>
 
