@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { HowItWorks } from "@/components/HowItWorks";
 import { QuickOrder } from "@/components/QuickOrder";
+import { PriceList } from "@/components/PriceList";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "next-themes";
@@ -11,11 +12,12 @@ const Index = () => {
     <ThemeProvider attribute="class" defaultTheme="light">
       <LanguageProvider>
         <div className="min-h-screen bg-background">
-          <Hero />
-          <Services />
-          <HowItWorks />
-          <QuickOrder />
-          <Footer />
+      <Hero />
+      <Services />
+      <HowItWorks />
+      <PriceList />
+      <QuickOrder />
+      <Footer />
         </div>
       </LanguageProvider>
     </ThemeProvider>

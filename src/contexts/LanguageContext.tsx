@@ -43,6 +43,10 @@ const translations = {
     // Quick Order
     quickOrderTitle: "Быстрый заказ",
     quickOrderSubtitle: "Заполните форму и мы свяжемся с вами",
+    
+    // Price List
+    priceListTitle: "Наши цены",
+    priceListSubtitle: "Прозрачные и честные расценки на все виды работ",
     formName: "Ваше имя",
     formPhone: "Телефон",
     formService: "Выберите услугу",
@@ -102,6 +106,10 @@ const translations = {
     // Quick Order
     quickOrderTitle: "Фармоиши тез",
     quickOrderSubtitle: "Формаро пур кунед ва мо бо шумо тамос мегирем",
+    
+    // Price List
+    priceListTitle: "Нархҳои мо",
+    priceListSubtitle: "Нархҳои шаффоф ва одилона барои ҳама намудҳои корҳо",
     formName: "Номи шумо",
     formPhone: "Телефон",
     formService: "Хидматро интихоб кунед",
@@ -163,6 +171,10 @@ const translations = {
     // Quick Order
     quickOrderTitle: "Quick Order",
     quickOrderSubtitle: "Fill out the form and we'll contact you",
+    
+    // Price List
+    priceListTitle: "Our Prices",
+    priceListSubtitle: "Transparent and fair pricing for all types of work",
     formName: "Your Name",
     formPhone: "Phone",
     formService: "Select Service",
