@@ -14,7 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      service_categories: {
+        Row: {
+          created_at: string | null
+          icon: string
+          id: string
+          key: string
+          name_en: string
+          name_ru: string
+          name_tj: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string | null
+          icon: string
+          id?: string
+          key: string
+          name_en: string
+          name_ru: string
+          name_tj: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string | null
+          icon?: string
+          id?: string
+          key?: string
+          name_en?: string
+          name_ru?: string
+          name_tj?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          avg_price: string
+          category_id: string
+          created_at: string | null
+          id: string
+          max_price: string
+          min_price: string
+          note_en: string | null
+          note_ru: string | null
+          note_tj: string | null
+          service_name_en: string
+          service_name_ru: string
+          service_name_tj: string
+          subcategory_en: string | null
+          subcategory_icon: string | null
+          subcategory_ru: string | null
+          subcategory_tj: string | null
+          unit_en: string
+          unit_ru: string
+          unit_tj: string
+          updated_at: string | null
+        }
+        Insert: {
+          avg_price: string
+          category_id: string
+          created_at?: string | null
+          id?: string
+          max_price: string
+          min_price: string
+          note_en?: string | null
+          note_ru?: string | null
+          note_tj?: string | null
+          service_name_en: string
+          service_name_ru: string
+          service_name_tj: string
+          subcategory_en?: string | null
+          subcategory_icon?: string | null
+          subcategory_ru?: string | null
+          subcategory_tj?: string | null
+          unit_en: string
+          unit_ru: string
+          unit_tj: string
+          updated_at?: string | null
+        }
+        Update: {
+          avg_price?: string
+          category_id?: string
+          created_at?: string | null
+          id?: string
+          max_price?: string
+          min_price?: string
+          note_en?: string | null
+          note_ru?: string | null
+          note_tj?: string | null
+          service_name_en?: string
+          service_name_ru?: string
+          service_name_tj?: string
+          subcategory_en?: string | null
+          subcategory_icon?: string | null
+          subcategory_ru?: string | null
+          subcategory_tj?: string | null
+          unit_en?: string
+          unit_ru?: string
+          unit_tj?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
