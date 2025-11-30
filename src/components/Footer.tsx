@@ -32,13 +32,13 @@ export const Footer = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">{t("footerContacts")}</h3>
             <div className="space-y-3">
-              <a href="tel:+992000000000" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href="tel:+992907907866" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Phone className="w-4 h-4" />
-                <span>+992 (00) 000-00-00</span>
+                <span>+992 907 907 866</span>
               </a>
-              <a href="mailto:info@masterchas.tj" className="flex items-center gap-2 hover:text-primary transition-colors">
+              <a href="mailto:chasmastera.tj@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
                 <Mail className="w-4 h-4" />
-                <span>info@masterchas.tj</span>
+                <span>chasmastera.tj@gmail.com</span>
               </a>
             </div>
           </div>
