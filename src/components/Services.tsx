@@ -188,9 +188,9 @@ export const Services = () => {
   }
 
   return (
-    <section id="services" className="py-20 bg-secondary/30">
+    <section id="services" className="py-20 bg-gradient-to-b from-background via-secondary/20 to-background">
       <div className="container px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-hero bg-clip-text text-transparent">
             {t("servicesTitle")}
           </h2>
@@ -199,7 +199,7 @@ export const Services = () => {
           </p>
         </div>
 
-        <Accordion type="multiple" className="space-y-4 max-w-6xl mx-auto">
+        <Accordion type="multiple" className="space-y-6 max-w-7xl mx-auto">
           {categories.map((category) => {
             const groupedServices = groupServicesBySubcategory(category.id);
             const hasServices = Object.keys(groupedServices).length > 0;
@@ -210,25 +210,27 @@ export const Services = () => {
               <AccordionItem
                 key={category.id}
                 value={category.id}
-                className="bg-card rounded-lg shadow-lg overflow-hidden border-2 border-border hover:border-primary/50 transition-all"
+                className="bg-card rounded-2xl shadow-xl overflow-hidden border-2 border-border/50 hover:border-primary/40 transition-all duration-300 hover:shadow-2xl"
               >
-                <AccordionTrigger className="px-6 py-5 hover:no-underline group bg-gradient-to-r from-primary/10 to-primary/5">
-                  <div className="flex items-center gap-4 text-left">
-                    <span className="text-4xl">{category.icon}</span>
-                    <span className="text-2xl font-bold group-hover:text-primary transition-colors">
+                <AccordionTrigger className="px-8 py-6 hover:no-underline group bg-gradient-to-r from-primary/15 via-primary/10 to-primary/5 hover:from-primary/20 hover:via-primary/15 hover:to-primary/10 transition-all duration-300">
+                  <div className="flex items-center gap-4 text-left w-full">
+                    <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
+                      {category.icon}
+                    </span>
+                    <span className="text-2xl md:text-3xl font-bold group-hover:text-primary transition-colors duration-300">
                       {getCategoryName(category)}
                     </span>
                   </div>
                 </AccordionTrigger>
 
-                <AccordionContent className="px-6 pb-6 pt-2">
-                  <div className="space-y-8">
+                <AccordionContent className="px-8 pb-8 pt-4">
+                  <div className="space-y-10">
                     {Object.entries(groupedServices).map(
                       ([subcategory, subcategoryServices]) => (
-                        <div key={subcategory} className="space-y-4">
-                          <h3 className="text-xl font-bold text-primary flex items-center gap-2">
+                        <div key={subcategory} className="space-y-4 animate-fade-in">
+                          <h3 className="text-xl md:text-2xl font-bold text-primary flex items-center gap-3 pb-2 border-b-2 border-primary/20">
                             {subcategoryServices[0]?.subcategory_icon && (
-                              <span className="text-2xl">
+                              <span className="text-3xl">
                                 {subcategoryServices[0].subcategory_icon}
                               </span>
                             )}
@@ -236,26 +238,26 @@ export const Services = () => {
                           </h3>
 
                           {/* Desktop Table */}
-                          <div className="hidden md:block rounded-lg overflow-hidden border border-border">
+                          <div className="hidden md:block rounded-xl overflow-hidden border-2 border-border/50 shadow-lg">
                             <Table>
                               <TableHeader>
-                                <TableRow className="bg-muted/50">
-                                  <TableHead className="font-bold">
+                                <TableRow className="bg-gradient-to-r from-muted/80 to-muted/50 hover:from-muted hover:to-muted/70">
+                                  <TableHead className="font-bold text-base">
                                     {t("serviceNameColumn")}
                                   </TableHead>
-                                  <TableHead className="font-bold">
+                                  <TableHead className="font-bold text-base">
                                     {t("unitColumn")}
                                   </TableHead>
-                                  <TableHead className="font-bold text-primary">
+                                  <TableHead className="font-bold text-base text-primary">
                                     {t("minPriceColumn")}
                                   </TableHead>
-                                  <TableHead className="font-bold text-primary">
+                                  <TableHead className="font-bold text-base text-primary">
                                     {t("avgPriceColumn")}
                                   </TableHead>
-                                  <TableHead className="font-bold text-primary">
+                                  <TableHead className="font-bold text-base text-primary">
                                     {t("maxPriceColumn")}
                                   </TableHead>
-                                  <TableHead className="font-bold">
+                                  <TableHead className="font-bold text-base">
                                     {t("noteColumn")}
                                   </TableHead>
                                 </TableRow>
@@ -264,24 +266,28 @@ export const Services = () => {
                                 {subcategoryServices.map((service, idx) => (
                                   <TableRow
                                     key={service.id}
-                                    className={
-                                      idx % 2 === 0 ? "bg-background" : "bg-muted/30"
-                                    }
+                                    className={`transition-colors duration-200 ${
+                                      idx % 2 === 0 
+                                        ? "bg-background hover:bg-muted/30" 
+                                        : "bg-muted/20 hover:bg-muted/40"
+                                    }`}
                                   >
-                                    <TableCell className="font-medium">
+                                    <TableCell className="font-medium text-base py-4">
                                       {getServiceName(service)}
                                     </TableCell>
-                                    <TableCell>{getUnit(service)}</TableCell>
-                                    <TableCell className="text-primary font-semibold">
-                                      {service.min_price}
+                                    <TableCell className="text-muted-foreground">
+                                      {getUnit(service)}
                                     </TableCell>
-                                    <TableCell className="text-primary font-semibold">
-                                      {service.avg_price}
+                                    <TableCell className="text-primary font-bold text-base">
+                                      {service.min_price} с.
                                     </TableCell>
-                                    <TableCell className="text-primary font-semibold">
-                                      {service.max_price}
+                                    <TableCell className="text-primary font-bold text-base">
+                                      {service.avg_price} с.
                                     </TableCell>
-                                    <TableCell className="text-sm text-muted-foreground">
+                                    <TableCell className="text-primary font-bold text-base">
+                                      {service.max_price} с.
+                                    </TableCell>
+                                    <TableCell className="text-sm text-muted-foreground italic">
                                       {getNote(service)}
                                     </TableCell>
                                   </TableRow>
@@ -295,47 +301,47 @@ export const Services = () => {
                             {subcategoryServices.map((service) => (
                               <div
                                 key={service.id}
-                                className="bg-card p-4 rounded-lg border border-border space-y-3"
+                                className="bg-card p-5 rounded-xl border-2 border-border/50 shadow-md hover:shadow-lg transition-all duration-300 space-y-4 hover:border-primary/30"
                               >
-                                <h4 className="font-bold text-lg">
+                                <h4 className="font-bold text-lg text-foreground">
                                   {getServiceName(service)}
                                 </h4>
-                                <div className="grid grid-cols-2 gap-2 text-sm">
-                                  <div>
-                                    <span className="text-muted-foreground">
-                                      {t("unitColumn")}:
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                  <div className="space-y-1">
+                                    <span className="text-muted-foreground text-xs uppercase tracking-wide">
+                                      {t("unitColumn")}
                                     </span>
-                                    <span className="ml-2 font-medium">
+                                    <p className="font-medium text-base">
                                       {getUnit(service)}
-                                    </span>
+                                    </p>
                                   </div>
-                                  <div>
-                                    <span className="text-muted-foreground">
-                                      {t("minPriceColumn")}:
+                                  <div className="space-y-1">
+                                    <span className="text-muted-foreground text-xs uppercase tracking-wide">
+                                      {t("minPriceColumn")}
                                     </span>
-                                    <span className="ml-2 font-semibold text-primary">
-                                      {service.min_price}
-                                    </span>
+                                    <p className="font-bold text-base text-primary">
+                                      {service.min_price} с.
+                                    </p>
                                   </div>
-                                  <div>
-                                    <span className="text-muted-foreground">
-                                      {t("avgPriceColumn")}:
+                                  <div className="space-y-1">
+                                    <span className="text-muted-foreground text-xs uppercase tracking-wide">
+                                      {t("avgPriceColumn")}
                                     </span>
-                                    <span className="ml-2 font-semibold text-primary">
-                                      {service.avg_price}
-                                    </span>
+                                    <p className="font-bold text-base text-primary">
+                                      {service.avg_price} с.
+                                    </p>
                                   </div>
-                                  <div>
-                                    <span className="text-muted-foreground">
-                                      {t("maxPriceColumn")}:
+                                  <div className="space-y-1">
+                                    <span className="text-muted-foreground text-xs uppercase tracking-wide">
+                                      {t("maxPriceColumn")}
                                     </span>
-                                    <span className="ml-2 font-semibold text-primary">
-                                      {service.max_price}
-                                    </span>
+                                    <p className="font-bold text-base text-primary">
+                                      {service.max_price} с.
+                                    </p>
                                   </div>
                                 </div>
                                 {getNote(service) && (
-                                  <p className="text-sm text-muted-foreground pt-2 border-t border-border">
+                                  <p className="text-sm text-muted-foreground pt-3 border-t border-border/50 italic">
                                     {getNote(service)}
                                   </p>
                                 )}
