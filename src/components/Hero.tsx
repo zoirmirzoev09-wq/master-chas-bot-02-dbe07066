@@ -1,20 +1,44 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages, Moon, Sun } from "lucide-react";
+import { Languages, Moon, Sun, LogIn, LogOut, Package } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 export const Hero = () => {
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
 
-  const scrollToOrder = () => {
-    document.getElementById("quick-order")?.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("Вы вышли из системы");
+  };
+
+  const scrollToServices = () => {
+    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const getLanguageLabel = () => {
@@ -64,6 +88,34 @@ export const Hero = () => {
           <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
+
+        {/* User menu */}
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <Package className="w-4 h-4" />
+                Кабинет
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => navigate("/my-orders")}>
+                <Package className="w-4 h-4 mr-2" />
+                Мои заказы
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Выйти
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button variant="outline" size="sm" className="gap-2" onClick={() => navigate("/auth")}>
+            <LogIn className="w-4 h-4" />
+            Войти
+          </Button>
+        )}
       </div>
 
       <div className="container relative z-10 px-4 py-20">
@@ -90,17 +142,17 @@ export const Hero = () => {
             <Button 
               size="lg" 
               className="text-lg px-8 py-6 shadow-lg-orange hover:scale-105 transition-transform"
-              onClick={scrollToOrder}
+              onClick={() => navigate("/quick-order")}
             >
-              {t("heroButton")}
+              ⚡️ Быстрый заказ
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
               className="text-lg px-8 py-6"
-              onClick={scrollToOrder}
+              onClick={scrollToServices}
             >
-              {t("heroButtonQuick")}
+              📋 Прайс-лист
             </Button>
           </div>
 
