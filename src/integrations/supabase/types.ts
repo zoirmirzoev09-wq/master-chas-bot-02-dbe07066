@@ -14,16 +14,303 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      masters: {
+        Row: {
+          categories: string[]
+          created_at: string | null
+          district: string
+          documents: string[] | null
+          experience: string | null
+          full_name: string
+          id: string
+          phone: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          categories: string[]
+          created_at?: string | null
+          district: string
+          documents?: string[] | null
+          experience?: string | null
+          full_name: string
+          id?: string
+          phone: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          categories?: string[]
+          created_at?: string | null
+          district?: string
+          documents?: string[] | null
+          experience?: string | null
+          full_name?: string
+          id?: string
+          phone?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "masters_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address: string
+          assigned_master_id: string | null
+          budget: string
+          category_id: string
+          comment: string | null
+          completed_at: string | null
+          created_at: string | null
+          district: string
+          id: string
+          object_type: string
+          order_number: string
+          photos: string[] | null
+          preferred_time: string
+          rating: number | null
+          review: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          address: string
+          assigned_master_id?: string | null
+          budget: string
+          category_id: string
+          comment?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          district: string
+          id?: string
+          object_type: string
+          order_number: string
+          photos?: string[] | null
+          preferred_time: string
+          rating?: number | null
+          review?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          assigned_master_id?: string | null
+          budget?: string
+          category_id?: string
+          comment?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          district?: string
+          id?: string
+          object_type?: string
+          order_number?: string
+          photos?: string[] | null
+          preferred_time?: string
+          rating?: number | null
+          review?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_assigned_master"
+            columns: ["assigned_master_id"]
+            isOneToOne: false
+            referencedRelation: "masters"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      service_categories: {
+        Row: {
+          created_at: string | null
+          icon: string
+          id: string
+          key: string
+          name_en: string
+          name_ru: string
+          name_tj: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string | null
+          icon: string
+          id?: string
+          key: string
+          name_en: string
+          name_ru: string
+          name_tj: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string | null
+          icon?: string
+          id?: string
+          key?: string
+          name_en?: string
+          name_ru?: string
+          name_tj?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          avg_price: string
+          category_id: string
+          created_at: string | null
+          id: string
+          max_price: string
+          min_price: string
+          note_en: string | null
+          note_ru: string | null
+          note_tj: string | null
+          service_name_en: string
+          service_name_ru: string
+          service_name_tj: string
+          subcategory_en: string | null
+          subcategory_icon: string | null
+          subcategory_ru: string | null
+          subcategory_tj: string | null
+          unit_en: string
+          unit_ru: string
+          unit_tj: string
+          updated_at: string | null
+        }
+        Insert: {
+          avg_price: string
+          category_id: string
+          created_at?: string | null
+          id?: string
+          max_price: string
+          min_price: string
+          note_en?: string | null
+          note_ru?: string | null
+          note_tj?: string | null
+          service_name_en: string
+          service_name_ru: string
+          service_name_tj: string
+          subcategory_en?: string | null
+          subcategory_icon?: string | null
+          subcategory_ru?: string | null
+          subcategory_tj?: string | null
+          unit_en: string
+          unit_ru: string
+          unit_tj: string
+          updated_at?: string | null
+        }
+        Update: {
+          avg_price?: string
+          category_id?: string
+          created_at?: string | null
+          id?: string
+          max_price?: string
+          min_price?: string
+          note_en?: string | null
+          note_ru?: string | null
+          note_tj?: string | null
+          service_name_en?: string
+          service_name_ru?: string
+          service_name_tj?: string
+          subcategory_en?: string | null
+          subcategory_icon?: string | null
+          subcategory_ru?: string | null
+          subcategory_tj?: string | null
+          unit_en?: string
+          unit_ru?: string
+          unit_tj?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "services_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "service_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_order_number: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +437,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
