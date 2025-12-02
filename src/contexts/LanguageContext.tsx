@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-type Language = "ru" | "tj";
+type Language = "ru" | "tj" | "en";
 
 interface LanguageContextType {
   language: Language;
@@ -19,6 +19,8 @@ const translations = {
     // Services
     servicesTitle: "Наши услуги",
     servicesSubtitle: "Широкий спектр услуг для дома и бизнеса",
+    searchPlaceholder: "Поиск услуг...",
+    filterAll: "Все услуги",
     serviceElectric: "Электрика",
     servicePlumbing: "Сантехника",
     serviceCleaning: "Клининг",
@@ -41,6 +43,10 @@ const translations = {
     // Quick Order
     quickOrderTitle: "Быстрый заказ",
     quickOrderSubtitle: "Заполните форму и мы свяжемся с вами",
+    
+    // Price List
+    priceListTitle: "Наши цены",
+    priceListSubtitle: "Прозрачные и честные расценки на все виды работ",
     formName: "Ваше имя",
     formPhone: "Телефон",
     formService: "Выберите услугу",
@@ -76,6 +82,8 @@ const translations = {
     // Services
     servicesTitle: "Хидматҳои мо",
     servicesSubtitle: "Хидматҳои васеъ барои хона ва бизнес",
+    searchPlaceholder: "Ҷустуҷӯи хидматҳо...",
+    filterAll: "Ҳамаи хидматҳо",
     serviceElectric: "Барқкорӣ",
     servicePlumbing: "Сантехника",
     serviceCleaning: "Тозакунӣ",
@@ -98,6 +106,10 @@ const translations = {
     // Quick Order
     quickOrderTitle: "Фармоиши тез",
     quickOrderSubtitle: "Формаро пур кунед ва мо бо шумо тамос мегирем",
+    
+    // Price List
+    priceListTitle: "Нархҳои мо",
+    priceListSubtitle: "Нархҳои шаффоф ва одилона барои ҳама намудҳои корҳо",
     formName: "Номи шумо",
     formPhone: "Телефон",
     formService: "Хидматро интихоб кунед",
@@ -122,6 +134,71 @@ const translations = {
     footerEmail: "Почтаи электронӣ",
     footerDistricts: "Ноҳияҳои кор",
     footerRights: "© 2025 Мастер Час. Ҳамаи ҳуқуқҳо ҳифз шудаанд",
+  },
+  en: {
+    // Header
+    heroTitle: "Call a Master in 1 Hour",
+    heroSubtitle: "Professional craftsmen in Dushanbe for any task",
+    heroButton: "Order a Master",
+    heroButtonQuick: "Quick Order",
+    
+    // Services
+    servicesTitle: "Our Services",
+    servicesSubtitle: "Wide range of services for home and business",
+    serviceElectric: "Electrical",
+    servicePlumbing: "Plumbing",
+    serviceCleaning: "Cleaning",
+    serviceFurniture: "Furniture Assembly",
+    serviceRenovation: "Renovation",
+    serviceSecurity: "Video Surveillance",
+    serviceRepair: "Appliance Repair",
+    serviceOther: "Other Services",
+    
+    // Search & Filter
+    searchPlaceholder: "Search services...",
+    filterAll: "All Services",
+    
+    // How it works
+    howItWorksTitle: "How It Works",
+    howItWorksSubtitle: "Just 3 simple steps to solve your problem",
+    step1Title: "Submit a Request",
+    step1Desc: "Choose a service and describe the task",
+    step2Title: "Master Contacts You",
+    step2Desc: "Within 15 minutes the master will call",
+    step3Title: "Work Completed",
+    step3Desc: "Quality and on time",
+    
+    // Quick Order
+    quickOrderTitle: "Quick Order",
+    quickOrderSubtitle: "Fill out the form and we'll contact you",
+    
+    // Price List
+    priceListTitle: "Our Prices",
+    priceListSubtitle: "Transparent and fair pricing for all types of work",
+    formName: "Your Name",
+    formPhone: "Phone",
+    formService: "Select Service",
+    formDistrict: "District",
+    formComment: "Comment (optional)",
+    formSubmit: "Submit Request",
+    formSuccess: "Thank you! We'll contact you soon",
+    
+    // Districts
+    districtSino: "Sino",
+    districtFirdausi: "Firdausi",
+    districtShomansur: "Shomansur",
+    districtIsmoili: "Ismoili Somoni",
+    districtSuburb: "Suburb",
+    districtOther: "Other",
+    
+    // Footer
+    footerAbout: "About Company",
+    footerAboutText: "Master Chas — reliable master call service in Dushanbe",
+    footerContacts: "Contacts",
+    footerPhone: "Phone",
+    footerEmail: "Email",
+    footerDistricts: "Service Areas",
+    footerRights: "© 2025 Master Chas. All rights reserved",
   },
 };
 
