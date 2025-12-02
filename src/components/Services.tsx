@@ -190,15 +190,6 @@ export const Services = () => {
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-background via-secondary/20 to-background">
       <div className="container px-4">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 gradient-hero bg-clip-text text-transparent">
-            {t("servicesTitle")}
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {t("servicesSubtitle")}
-          </p>
-        </div>
-
         <Accordion type="multiple" className="space-y-6 max-w-7xl mx-auto">
           {categories.map((category) => {
             const groupedServices = groupServicesBySubcategory(category.id);
