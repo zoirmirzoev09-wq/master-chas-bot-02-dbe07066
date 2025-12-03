@@ -28,6 +28,7 @@ const translations = {
     serviceRenovation: "Отделка",
     serviceSecurity: "Видеонаблюдение",
     serviceRepair: "Ремонт техники",
+    serviceSmartHome: "Умный дом",
     serviceOther: "Другие услуги",
     
     // How it works
@@ -91,6 +92,7 @@ const translations = {
     serviceRenovation: "Таъмири хона",
     serviceSecurity: "Видеоназорат",
     serviceRepair: "Таъмири техника",
+    serviceSmartHome: "Хонаи зирак",
     serviceOther: "Дигар хидматҳо",
     
     // How it works
@@ -152,6 +154,7 @@ const translations = {
     serviceRenovation: "Renovation",
     serviceSecurity: "Video Surveillance",
     serviceRepair: "Appliance Repair",
+    serviceSmartHome: "Smart Home",
     serviceOther: "Other Services",
     
     // Search & Filter
