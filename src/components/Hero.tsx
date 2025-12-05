@@ -1,17 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Languages, Moon, Sun } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Languages, Moon, Sun, LogIn, User, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 export const Hero = () => {
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const scrollToOrder = () => {
     document.getElementById("quick-order")?.scrollIntoView({ behavior: "smooth" });
@@ -24,6 +29,10 @@ export const Hero = () => {
       case "en": return "🇬🇧 EN";
       default: return "🇷🇺 RU";
     }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
   };
 
   return (
@@ -64,6 +73,39 @@ export const Hero = () => {
           <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
+
+        {/* Auth button */}
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <User className="w-4 h-4" />
+                {user.user_metadata?.full_name || user.email?.split('@')[0]}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => navigate("/cabinet")}>
+                <User className="w-4 h-4 mr-2" />
+                Личный кабинет
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Выйти
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button
+            variant="default"
+            size="sm"
+            className="gap-2"
+            onClick={() => navigate("/auth")}
+          >
+            <LogIn className="w-4 h-4" />
+            Вход
+          </Button>
+        )}
       </div>
 
       <div className="container relative z-10 px-4 py-20">

@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      master_applications: {
+        Row: {
+          age: number | null
+          categories: string[]
+          created_at: string | null
+          documents: string[] | null
+          experience: string | null
+          full_name: string
+          id: string
+          phone: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          categories: string[]
+          created_at?: string | null
+          documents?: string[] | null
+          experience?: string | null
+          full_name: string
+          id?: string
+          phone: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          categories?: string[]
+          created_at?: string | null
+          documents?: string[] | null
+          experience?: string | null
+          full_name?: string
+          id?: string
+          phone?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       masters: {
         Row: {
           categories: string[]
@@ -79,6 +124,7 @@ export type Database = {
           rating: number | null
           review: string | null
           status: string
+          total_price: number | null
           user_id: string
         }
         Insert: {
@@ -98,6 +144,7 @@ export type Database = {
           rating?: number | null
           review?: string | null
           status?: string
+          total_price?: number | null
           user_id: string
         }
         Update: {
@@ -117,6 +164,7 @@ export type Database = {
           rating?: number | null
           review?: string | null
           status?: string
+          total_price?: number | null
           user_id?: string
         }
         Relationships: [
@@ -145,21 +193,30 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age: number | null
+          avatar_url: string | null
           created_at: string | null
           full_name: string | null
           id: string
+          is_superadmin: boolean | null
           phone: string | null
         }
         Insert: {
+          age?: number | null
+          avatar_url?: string | null
           created_at?: string | null
           full_name?: string | null
           id: string
+          is_superadmin?: boolean | null
           phone?: string | null
         }
         Update: {
+          age?: number | null
+          avatar_url?: string | null
           created_at?: string | null
           full_name?: string | null
           id?: string
+          is_superadmin?: boolean | null
           phone?: string | null
         }
         Relationships: []
