@@ -446,7 +446,23 @@ export const Services = () => {
   const [selectedService, setSelectedService] = useState<ServiceCategory | null>(null);
 
   const filteredServices = servicesData.filter((service) => {
-    const matchesSearch = t(service.key).toLowerCase().includes(searchQuery.toLowerCase());
+    const query = searchQuery.toLowerCase();
+    
+    // Search by category name
+    const matchesCategoryName = t(service.key).toLowerCase().includes(query);
+    
+    // Search by subcategory titles and service names
+    const matchesSubCategories = service.subCategories?.some(subCat => {
+      // Match subcategory title
+      if (subCat.title.toLowerCase().includes(query)) return true;
+      // Match any service name within subcategory
+      return subCat.items.some(item => 
+        item.service.toLowerCase().includes(query) || 
+        (item.note && item.note.toLowerCase().includes(query))
+      );
+    }) || false;
+    
+    const matchesSearch = !query || matchesCategoryName || matchesSubCategories;
     const matchesFilter = !selectedFilter || service.key === selectedFilter;
     return matchesSearch && matchesFilter;
   });
