@@ -6,7 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, User, Phone, Calendar, Package, ArrowLeft, Star } from 'lucide-react';
+import { Loader2, User, Phone, Calendar, Package, Star } from 'lucide-react';
+import Header from '@/components/Header';
 
 const ClientCabinet = () => {
   const { language } = useLanguage();
@@ -26,7 +27,6 @@ const ClientCabinet = () => {
       orders: 'Мои заказы',
       noOrders: 'У вас пока нет заказов',
       completedOrders: 'Выполненных заказов',
-      back: 'На главную',
       pending: 'В ожидании',
       inProgress: 'В работе',
       completed: 'Выполнен',
@@ -43,7 +43,6 @@ const ClientCabinet = () => {
       orders: 'Фармоишҳои ман',
       noOrders: 'Шумо ҳоло фармоише надоред',
       completedOrders: 'Фармоишҳои иҷрошуда',
-      back: 'Ба саҳифаи асосӣ',
       pending: 'Дар интизорӣ',
       inProgress: 'Дар кор',
       completed: 'Иҷро шуд',
@@ -60,7 +59,6 @@ const ClientCabinet = () => {
       orders: 'My Orders',
       noOrders: 'You have no orders yet',
       completedOrders: 'Completed orders',
-      back: 'Back to Home',
       pending: 'Pending',
       inProgress: 'In Progress',
       completed: 'Completed',
@@ -136,16 +134,9 @@ const ClientCabinet = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Header showBackButton />
+      
       <div className="container mx-auto px-4 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate('/')}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {t.back}
-        </Button>
-
         <h1 className="text-3xl font-bold text-foreground mb-8">{t.title}</h1>
 
         <div className="grid md:grid-cols-3 gap-6">

@@ -10,8 +10,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { User, Wrench, ArrowLeft, Loader2 } from "lucide-react";
+import { User, Wrench, Loader2 } from "lucide-react";
 import { z } from "zod";
+import Header from "@/components/Header";
 
 const phoneSchema = z.string().regex(/^\+992\d{9}$/, "Формат: +992XXXXXXXXX");
 const emailSchema = z.string().email("Введите корректный email");
@@ -31,7 +32,7 @@ const serviceCategories = [
 ];
 
 export default function Auth() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
   const { user, signUp, signIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -48,6 +49,74 @@ export default function Auth() {
   const [age, setAge] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [experience, setExperience] = useState("");
+
+  const texts = {
+    ru: {
+      login: 'Вход',
+      register: 'Регистрация',
+      client: 'Я клиент',
+      master: 'Я мастер',
+      email: 'Email',
+      password: 'Пароль',
+      fullName: 'Полное имя',
+      phone: 'Телефон',
+      age: 'Возраст',
+      categories: 'Категории услуг',
+      experience: 'Опыт работы',
+      submit: 'Войти',
+      submitRegister: 'Зарегистрироваться',
+      submitMaster: 'Отправить заявку',
+      welcome: 'Добро пожаловать!',
+      loginSuccess: 'Вы успешно вошли в систему',
+      registerSuccess: 'Регистрация успешна!',
+      masterSuccess: 'Заявка отправлена!',
+      masterSuccessText: 'Мы свяжемся с вами в течение 24 часов для проверки'
+    },
+    tj: {
+      login: 'Вуруд',
+      register: 'Сабт',
+      client: 'Ман муштарӣ',
+      master: 'Ман устод',
+      email: 'Email',
+      password: 'Рамз',
+      fullName: 'Номи пурра',
+      phone: 'Телефон',
+      age: 'Синну сол',
+      categories: 'Категорияҳои хидматрасонӣ',
+      experience: 'Таҷрибаи корӣ',
+      submit: 'Даромадан',
+      submitRegister: 'Сабт кардан',
+      submitMaster: 'Фиристодани дархост',
+      welcome: 'Хуш омадед!',
+      loginSuccess: 'Шумо бо муваффақият ворид шудед',
+      registerSuccess: 'Сабт бо муваффақият!',
+      masterSuccess: 'Дархост фиристода шуд!',
+      masterSuccessText: 'Мо дар давоми 24 соат бо шумо тамос мегирем'
+    },
+    en: {
+      login: 'Login',
+      register: 'Register',
+      client: "I'm a client",
+      master: "I'm a master",
+      email: 'Email',
+      password: 'Password',
+      fullName: 'Full Name',
+      phone: 'Phone',
+      age: 'Age',
+      categories: 'Service Categories',
+      experience: 'Work Experience',
+      submit: 'Sign In',
+      submitRegister: 'Register',
+      submitMaster: 'Submit Application',
+      welcome: 'Welcome!',
+      loginSuccess: 'You have successfully logged in',
+      registerSuccess: 'Registration successful!',
+      masterSuccess: 'Application submitted!',
+      masterSuccessText: 'We will contact you within 24 hours for verification'
+    }
+  };
+
+  const t = texts[language];
 
   useEffect(() => {
     if (user) {
@@ -94,8 +163,8 @@ export default function Auth() {
         if (error) throw error;
         
         toast({
-          title: "Добро пожаловать!",
-          description: "Вы успешно вошли в систему"
+          title: t.welcome,
+          description: t.loginSuccess
         });
         navigate("/");
       } else {
@@ -132,13 +201,13 @@ export default function Auth() {
           }
           
           toast({
-            title: "Заявка отправлена!",
-            description: "Мы свяжемся с вами в течение 24 часов для проверки"
+            title: t.masterSuccess,
+            description: t.masterSuccessText
           });
         } else {
           toast({
-            title: "Регистрация успешна!",
-            description: "Добро пожаловать в Мастер Час"
+            title: t.registerSuccess,
+            description: t.welcome
           });
         }
         
@@ -173,178 +242,173 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <Button
-          variant="ghost"
-          className="mb-4"
-          onClick={() => navigate("/")}
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          На главную
-        </Button>
-        
-        <Card className="shadow-xl border-2">
-          <CardHeader className="text-center pb-2">
-            <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Мастер Час
-            </CardTitle>
-            <CardDescription>
-              {authMode === "login" ? "Войдите в свой аккаунт" : "Создайте новый аккаунт"}
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent>
-            <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as "login" | "register")}>
-              <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login">Вход</TabsTrigger>
-                <TabsTrigger value="register">Регистрация</TabsTrigger>
-              </TabsList>
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {authMode === "register" && (
-                  <div className="flex gap-2 mb-4">
-                    <Button
-                      type="button"
-                      variant={userType === "client" ? "default" : "outline"}
-                      className="flex-1"
-                      onClick={() => setUserType("client")}
-                    >
-                      <User className="w-4 h-4 mr-2" />
-                      Я клиент
-                    </Button>
-                    <Button
-                      type="button"
-                      variant={userType === "master" ? "default" : "outline"}
-                      className="flex-1"
-                      onClick={() => setUserType("master")}
-                    >
-                      <Wrench className="w-4 h-4 mr-2" />
-                      Я мастер
-                    </Button>
-                  </div>
-                )}
+    <div className="min-h-screen bg-background">
+      <Header showBackButton />
+      
+      <div className="flex items-center justify-center p-4 py-8">
+        <div className="w-full max-w-md">
+          <Card className="shadow-xl border-2">
+            <CardHeader className="text-center pb-2">
+              <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Мастер Час
+              </CardTitle>
+              <CardDescription>
+                {authMode === "login" ? "Войдите в свой аккаунт" : "Создайте новый аккаунт"}
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent>
+              <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as "login" | "register")}>
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="login">{t.login}</TabsTrigger>
+                  <TabsTrigger value="register">{t.register}</TabsTrigger>
+                </TabsList>
                 
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="example@mail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="password">Пароль</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Минимум 6 символов"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
-                
-                {authMode === "register" && (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Полное имя</Label>
-                      <Input
-                        id="fullName"
-                        placeholder="Иван Иванов"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        required
-                      />
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {authMode === "register" && (
+                    <div className="flex gap-2 mb-4">
+                      <Button
+                        type="button"
+                        variant={userType === "client" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setUserType("client")}
+                      >
+                        <User className="w-4 h-4 mr-2" />
+                        {t.client}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={userType === "master" ? "default" : "outline"}
+                        className="flex-1"
+                        onClick={() => setUserType("master")}
+                      >
+                        <Wrench className="w-4 h-4 mr-2" />
+                        {t.master}
+                      </Button>
                     </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Телефон</Label>
-                      <Input
-                        id="phone"
-                        placeholder="+992XXXXXXXXX"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="age">Возраст</Label>
-                      <Input
-                        id="age"
-                        type="number"
-                        placeholder="25"
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                        min="18"
-                        max="80"
-                      />
-                    </div>
-                    
-                    {userType === "master" && (
-                      <>
-                        <div className="space-y-2">
-                          <Label>Категории услуг</Label>
-                          <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto p-2 border rounded-lg">
-                            {serviceCategories.map((cat) => (
-                              <div key={cat.id} className="flex items-center space-x-2">
-                                <Checkbox
-                                  id={cat.id}
-                                  checked={selectedCategories.includes(cat.id)}
-                                  onCheckedChange={() => toggleCategory(cat.id)}
-                                />
-                                <label
-                                  htmlFor={cat.id}
-                                  className="text-sm cursor-pointer"
-                                >
-                                  {cat.label}
-                                </label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="experience">Опыт работы</Label>
-                          <Input
-                            id="experience"
-                            placeholder="5 лет работы электриком"
-                            value={experience}
-                            onChange={(e) => setExperience(e.target.value)}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </>
-                )}
-                
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Загрузка...
-                    </>
-                  ) : authMode === "login" ? (
-                    "Войти"
-                  ) : userType === "master" ? (
-                    "Отправить заявку"
-                  ) : (
-                    "Зарегистрироваться"
                   )}
-                </Button>
-              </form>
-            </Tabs>
-          </CardContent>
-        </Card>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="email">{t.email}</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="example@mail.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="password">{t.password}</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Минимум 6 символов"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  {authMode === "register" && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName">{t.fullName}</Label>
+                        <Input
+                          id="fullName"
+                          placeholder="Иван Иванов"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">{t.phone}</Label>
+                        <Input
+                          id="phone"
+                          placeholder="+992XXXXXXXXX"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          required
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="age">{t.age}</Label>
+                        <Input
+                          id="age"
+                          type="number"
+                          placeholder="25"
+                          value={age}
+                          onChange={(e) => setAge(e.target.value)}
+                          min="18"
+                          max="80"
+                        />
+                      </div>
+                      
+                      {userType === "master" && (
+                        <>
+                          <div className="space-y-2">
+                            <Label>{t.categories}</Label>
+                            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto p-2 border rounded-lg">
+                              {serviceCategories.map((cat) => (
+                                <div key={cat.id} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    id={cat.id}
+                                    checked={selectedCategories.includes(cat.id)}
+                                    onCheckedChange={() => toggleCategory(cat.id)}
+                                  />
+                                  <label
+                                    htmlFor={cat.id}
+                                    className="text-sm cursor-pointer"
+                                  >
+                                    {cat.label}
+                                  </label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="experience">{t.experience}</Label>
+                            <Input
+                              id="experience"
+                              placeholder="5 лет работы электриком"
+                              value={experience}
+                              onChange={(e) => setExperience(e.target.value)}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
+                  
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Загрузка...
+                      </>
+                    ) : authMode === "login" ? (
+                      t.submit
+                    ) : userType === "master" ? (
+                      t.submitMaster
+                    ) : (
+                      t.submitRegister
+                    )}
+                  </Button>
+                </form>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
