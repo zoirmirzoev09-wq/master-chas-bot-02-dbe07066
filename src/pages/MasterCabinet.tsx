@@ -6,8 +6,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, User, Phone, Briefcase, Package, ArrowLeft, Star, DollarSign, AlertCircle } from 'lucide-react';
+import { Loader2, User, Phone, Briefcase, Package, Star, DollarSign, AlertCircle } from 'lucide-react';
 import MasterApplicationForm from '@/components/MasterApplicationForm';
+import Header from '@/components/Header';
 
 const MasterCabinet = () => {
   const { language } = useLanguage();
@@ -36,7 +37,6 @@ const MasterCabinet = () => {
       rating: 'Рейтинг',
       orders: 'Мои заказы',
       noOrders: 'У вас пока нет заказов',
-      back: 'На главную',
       pending: 'В ожидании',
       inProgress: 'В работе',
       completed: 'Выполнен',
@@ -61,7 +61,6 @@ const MasterCabinet = () => {
       rating: 'Рейтинг',
       orders: 'Фармоишҳои ман',
       noOrders: 'Шумо ҳоло фармоише надоред',
-      back: 'Ба саҳифаи асосӣ',
       pending: 'Дар интизорӣ',
       inProgress: 'Дар кор',
       completed: 'Иҷро шуд',
@@ -86,7 +85,6 @@ const MasterCabinet = () => {
       rating: 'Rating',
       orders: 'My Orders',
       noOrders: 'You have no orders yet',
-      back: 'Back to Home',
       pending: 'Pending',
       inProgress: 'In Progress',
       completed: 'Completed',
@@ -177,15 +175,17 @@ const MasterCabinet = () => {
   // Master is blocked
   if (master?.status === 'blocked') {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="pt-6 text-center">
-            <AlertCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-foreground mb-2">{t.blocked}</h2>
-            <p className="text-muted-foreground mb-4">{t.blockedText}</p>
-            <Button onClick={() => navigate('/')}>{t.back}</Button>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-background">
+        <Header showBackButton />
+        <div className="flex items-center justify-center p-8">
+          <Card className="max-w-md">
+            <CardContent className="pt-6 text-center">
+              <AlertCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
+              <h2 className="text-xl font-bold text-foreground mb-2">{t.blocked}</h2>
+              <p className="text-muted-foreground mb-4">{t.blockedText}</p>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }
@@ -194,12 +194,8 @@ const MasterCabinet = () => {
   if (!master) {
     return (
       <div className="min-h-screen bg-background">
+        <Header showBackButton />
         <div className="container mx-auto px-4 py-8">
-          <Button variant="ghost" onClick={() => navigate('/')} className="mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {t.back}
-          </Button>
-
           <h1 className="text-3xl font-bold text-foreground mb-8">{t.title}</h1>
 
           <Card className="max-w-lg mx-auto">
@@ -232,12 +228,8 @@ const MasterCabinet = () => {
   // Approved master - show full cabinet
   return (
     <div className="min-h-screen bg-background">
+      <Header showBackButton />
       <div className="container mx-auto px-4 py-8">
-        <Button variant="ghost" onClick={() => navigate('/')} className="mb-6">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          {t.back}
-        </Button>
-
         <h1 className="text-3xl font-bold text-foreground mb-8">{t.title}</h1>
 
         <div className="grid md:grid-cols-3 gap-6">
