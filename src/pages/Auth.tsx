@@ -162,6 +162,36 @@ export default function Auth() {
         const { error } = await signIn(email, password);
         if (error) throw error;
         
+        // Check user status
+        const { data: { user: loggedUser } } = await supabase.auth.getUser();
+        if (loggedUser) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('status')
+            .eq('id', loggedUser.id)
+            .maybeSingle();
+          
+          if (profile?.status === 'pending') {
+            toast({
+              title: "Ожидание подтверждения",
+              description: "Ваша регистрация ещё не подтверждена администратором",
+              variant: "destructive"
+            });
+            await supabase.auth.signOut();
+            return;
+          }
+          
+          if (profile?.status === 'rejected') {
+            toast({
+              title: "Доступ запрещён",
+              description: "Ваша регистрация была отклонена",
+              variant: "destructive"
+            });
+            await supabase.auth.signOut();
+            return;
+          }
+        }
+        
         toast({
           title: t.welcome,
           description: t.loginSuccess
@@ -207,11 +237,12 @@ export default function Auth() {
         } else {
           toast({
             title: t.registerSuccess,
-            description: t.welcome
+            description: "Ваша регистрация отправлена на проверку администратору"
           });
         }
         
-        navigate("/");
+        // Don't navigate - user needs to wait for approval
+        setAuthMode("login");
       }
     } catch (error: any) {
       console.error("Auth error:", error);

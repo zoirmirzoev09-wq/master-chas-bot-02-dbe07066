@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import ClientCabinet from "./pages/ClientCabinet";
 import MasterCabinet from "./pages/MasterCabinet";
+import AdminPanel from "./pages/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/cabinet/client" element={<ClientCabinet />} />
                 <Route path="/cabinet/master" element={<MasterCabinet />} />
+                <Route path="/admin" element={<AdminPanel />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

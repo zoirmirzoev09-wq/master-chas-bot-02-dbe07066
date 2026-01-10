@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_actions: {
+        Row: {
+          action: string
+          admin_id: string | null
+          created_at: string | null
+          details: Json | null
+          id: string
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string | null
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
       master_applications: {
         Row: {
           age: number | null
@@ -200,6 +227,7 @@ export type Database = {
           id: string
           is_superadmin: boolean | null
           phone: string | null
+          status: string
         }
         Insert: {
           age?: number | null
@@ -209,6 +237,7 @@ export type Database = {
           id: string
           is_superadmin?: boolean | null
           phone?: string | null
+          status?: string
         }
         Update: {
           age?: number | null
@@ -218,6 +247,7 @@ export type Database = {
           id?: string
           is_superadmin?: boolean | null
           phone?: string | null
+          status?: string
         }
         Relationships: []
       }
@@ -367,7 +397,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "master"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -495,7 +525,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "master"],
     },
   },
 } as const
