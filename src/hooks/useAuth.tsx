@@ -6,8 +6,9 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  userRole: string | null;
+  userRole: 'admin' | 'master' | 'user' | null;
   isSuperAdmin: boolean;
+  userStatus: string | null;
   signUp: (email: string, password: string, metadata?: Record<string, any>) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
@@ -19,8 +20,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<'admin' | 'master' | 'user' | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [userStatus, setUserStatus] = useState<string | null>(null);
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -34,10 +36,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setTimeout(() => {
             fetchUserRole(session.user.id);
             checkSuperAdmin(session.user.id);
+            fetchUserStatus(session.user.id);
           }, 0);
         } else {
           setUserRole(null);
           setIsSuperAdmin(false);
+          setUserStatus(null);
         }
       }
     );
@@ -49,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (session?.user) {
         fetchUserRole(session.user.id);
         checkSuperAdmin(session.user.id);
+        fetchUserStatus(session.user.id);
       }
       setLoading(false);
     });
@@ -64,7 +69,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .maybeSingle();
     
     if (data && !error) {
-      setUserRole(data.role);
+      setUserRole(data.role as 'admin' | 'master' | 'user');
+    }
+  };
+
+  const fetchUserStatus = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('status')
+      .eq('id', userId)
+      .maybeSingle();
+    
+    if (data && !error) {
+      setUserStatus(data.status);
     }
   };
 
@@ -108,6 +125,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setSession(null);
     setUserRole(null);
     setIsSuperAdmin(false);
+    setUserStatus(null);
   };
 
   return (
@@ -117,6 +135,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       loading, 
       userRole, 
       isSuperAdmin,
+      userStatus,
       signUp, 
       signIn, 
       signOut 

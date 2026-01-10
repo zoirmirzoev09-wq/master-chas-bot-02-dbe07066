@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
-import { Languages, Moon, Sun, LogIn, User, LogOut, ArrowLeft } from "lucide-react";
+import { Languages, Moon, Sun, LogIn, User, LogOut, ArrowLeft, Shield, Wrench } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
@@ -19,9 +19,12 @@ interface HeaderProps {
 export const Header = ({ showBackButton = false }: HeaderProps) => {
   const { language, setLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
-  const { user, signOut } = useAuth();
+  const { user, userRole, isSuperAdmin, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const isAdmin = userRole === "admin" || isSuperAdmin;
+  const isMaster = userRole === "master";
 
   const getLanguageLabel = () => {
     switch (language) {
@@ -38,9 +41,30 @@ export const Header = ({ showBackButton = false }: HeaderProps) => {
   };
 
   const texts = {
-    ru: { back: 'На главную', profile: 'Личный кабинет', logout: 'Выйти', login: 'Вход' },
-    tj: { back: 'Ба саҳифаи асосӣ', profile: 'Кабинети шахсӣ', logout: 'Баромад', login: 'Вуруд' },
-    en: { back: 'Back to Home', profile: 'My Account', logout: 'Logout', login: 'Login' }
+    ru: { 
+      back: 'На главную', 
+      profile: 'Личный кабинет', 
+      logout: 'Выйти', 
+      login: 'Вход',
+      admin: 'Админ-панель',
+      masterCabinet: 'Кабинет мастера'
+    },
+    tj: { 
+      back: 'Ба саҳифаи асосӣ', 
+      profile: 'Кабинети шахсӣ', 
+      logout: 'Баромад', 
+      login: 'Вуруд',
+      admin: 'Панели администратор',
+      masterCabinet: 'Кабинети устод'
+    },
+    en: { 
+      back: 'Back to Home', 
+      profile: 'My Account', 
+      logout: 'Logout', 
+      login: 'Login',
+      admin: 'Admin Panel',
+      masterCabinet: 'Master Cabinet'
+    }
   };
 
   const t = texts[language];
@@ -111,6 +135,21 @@ export const Header = ({ showBackButton = false }: HeaderProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                {isAdmin && (
+                  <>
+                    <DropdownMenuItem onClick={() => navigate("/admin")}>
+                      <Shield className="w-4 h-4 mr-2" />
+                      {t.admin}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                {isMaster && (
+                  <DropdownMenuItem onClick={() => navigate("/cabinet/master")}>
+                    <Wrench className="w-4 h-4 mr-2" />
+                    {t.masterCabinet}
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem onClick={() => navigate("/cabinet/client")}>
                   <User className="w-4 h-4 mr-2" />
                   {t.profile}
