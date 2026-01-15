@@ -19,20 +19,20 @@ const emailSchema = z.string().email("Введите корректный email"
 const passwordSchema = z.string().min(6, "Минимум 6 символов");
 
 const serviceCategories = [
-  { id: "electric", label: "Электрика" },
-  { id: "plumbing", label: "Сантехника" },
-  { id: "cleaning", label: "Клининг" },
-  { id: "furniture", label: "Сборка мебели" },
-  { id: "renovation", label: "Отделка" },
-  { id: "security", label: "Видеонаблюдение" },
-  { id: "welding", label: "Сварка" },
-  { id: "smartHome", label: "Умный дом" },
-  { id: "basement", label: "Подвалы и гаражи" },
-  { id: "turnkey", label: "Ремонт под ключ" },
+  { id: "electric", labelKey: "serviceElectric" },
+  { id: "plumbing", labelKey: "servicePlumbing" },
+  { id: "cleaning", labelKey: "serviceCleaning" },
+  { id: "furniture", labelKey: "serviceFurniture" },
+  { id: "renovation", labelKey: "serviceRenovation" },
+  { id: "security", labelKey: "serviceSecurity" },
+  { id: "welding", labelKey: "serviceWelding" },
+  { id: "smartHome", labelKey: "serviceSmartHome" },
+  { id: "basement", labelKey: "serviceBasement" },
+  { id: "turnkey", labelKey: "serviceTurnkey" },
 ];
 
 export default function Auth() {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
   const { user, signUp, signIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -50,74 +50,6 @@ export default function Auth() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [experience, setExperience] = useState("");
 
-  const texts = {
-    ru: {
-      login: 'Вход',
-      register: 'Регистрация',
-      client: 'Я клиент',
-      master: 'Я мастер',
-      email: 'Email',
-      password: 'Пароль',
-      fullName: 'Полное имя',
-      phone: 'Телефон',
-      age: 'Возраст',
-      categories: 'Категории услуг',
-      experience: 'Опыт работы',
-      submit: 'Войти',
-      submitRegister: 'Зарегистрироваться',
-      submitMaster: 'Отправить заявку',
-      welcome: 'Добро пожаловать!',
-      loginSuccess: 'Вы успешно вошли в систему',
-      registerSuccess: 'Регистрация успешна!',
-      masterSuccess: 'Заявка отправлена!',
-      masterSuccessText: 'Мы свяжемся с вами в течение 24 часов для проверки'
-    },
-    tj: {
-      login: 'Вуруд',
-      register: 'Сабт',
-      client: 'Ман муштарӣ',
-      master: 'Ман устод',
-      email: 'Email',
-      password: 'Рамз',
-      fullName: 'Номи пурра',
-      phone: 'Телефон',
-      age: 'Синну сол',
-      categories: 'Категорияҳои хидматрасонӣ',
-      experience: 'Таҷрибаи корӣ',
-      submit: 'Даромадан',
-      submitRegister: 'Сабт кардан',
-      submitMaster: 'Фиристодани дархост',
-      welcome: 'Хуш омадед!',
-      loginSuccess: 'Шумо бо муваффақият ворид шудед',
-      registerSuccess: 'Сабт бо муваффақият!',
-      masterSuccess: 'Дархост фиристода шуд!',
-      masterSuccessText: 'Мо дар давоми 24 соат бо шумо тамос мегирем'
-    },
-    en: {
-      login: 'Login',
-      register: 'Register',
-      client: "I'm a client",
-      master: "I'm a master",
-      email: 'Email',
-      password: 'Password',
-      fullName: 'Full Name',
-      phone: 'Phone',
-      age: 'Age',
-      categories: 'Service Categories',
-      experience: 'Work Experience',
-      submit: 'Sign In',
-      submitRegister: 'Register',
-      submitMaster: 'Submit Application',
-      welcome: 'Welcome!',
-      loginSuccess: 'You have successfully logged in',
-      registerSuccess: 'Registration successful!',
-      masterSuccess: 'Application submitted!',
-      masterSuccessText: 'We will contact you within 24 hours for verification'
-    }
-  };
-
-  const t = texts[language];
-
   useEffect(() => {
     if (user) {
       navigate("/");
@@ -131,19 +63,19 @@ export default function Auth() {
       
       if (authMode === "register") {
         if (!fullName.trim()) {
-          throw new Error("Введите имя");
+          throw new Error(t('enterName'));
         }
         phoneSchema.parse(phone);
         
         if (userType === "master" && selectedCategories.length === 0) {
-          throw new Error("Выберите хотя бы одну категорию услуг");
+          throw new Error(t('selectCategory'));
         }
       }
       return true;
     } catch (error: any) {
       toast({
-        title: "Ошибка валидации",
-        description: error.message || "Проверьте введённые данные",
+        title: t('validationError'),
+        description: error.message || t('checkData'),
         variant: "destructive"
       });
       return false;
@@ -173,8 +105,8 @@ export default function Auth() {
           
           if (profile?.status === 'pending') {
             toast({
-              title: "Ожидание подтверждения",
-              description: "Ваша регистрация ещё не подтверждена администратором",
+              title: t('pendingApproval'),
+              description: t('pendingApprovalText'),
               variant: "destructive"
             });
             await supabase.auth.signOut();
@@ -183,8 +115,8 @@ export default function Auth() {
           
           if (profile?.status === 'rejected') {
             toast({
-              title: "Доступ запрещён",
-              description: "Ваша регистрация была отклонена",
+              title: t('accessDenied'),
+              description: t('accessDeniedText'),
               variant: "destructive"
             });
             await supabase.auth.signOut();
@@ -193,8 +125,8 @@ export default function Auth() {
         }
         
         toast({
-          title: t.welcome,
-          description: t.loginSuccess
+          title: t('welcome'),
+          description: t('loginSuccess')
         });
         navigate("/");
       } else {
@@ -231,13 +163,13 @@ export default function Auth() {
           }
           
           toast({
-            title: t.masterSuccess,
-            description: t.masterSuccessText
+            title: t('masterSuccess'),
+            description: t('masterSuccessText')
           });
         } else {
           toast({
-            title: t.registerSuccess,
-            description: "Ваша регистрация отправлена на проверку администратору"
+            title: t('registerSuccess'),
+            description: t('registrationPending')
           });
         }
         
@@ -247,15 +179,15 @@ export default function Auth() {
     } catch (error: any) {
       console.error("Auth error:", error);
       
-      let message = "Произошла ошибка";
+      let message = t('error');
       if (error.message?.includes("already registered")) {
-        message = "Этот email уже зарегистрирован";
+        message = t('emailExists');
       } else if (error.message?.includes("Invalid login")) {
-        message = "Неверный email или пароль";
+        message = t('invalidCredentials');
       }
       
       toast({
-        title: "Ошибка",
+        title: t('error'),
         description: message,
         variant: "destructive"
       });
@@ -278,21 +210,21 @@ export default function Auth() {
       
       <div className="flex items-center justify-center p-4 py-8">
         <div className="w-full max-w-md">
-          <Card className="shadow-xl border-2">
+          <Card className="shadow-xl border-2 border-border bg-card">
             <CardHeader className="text-center pb-2">
-              <CardTitle className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <CardTitle className="text-2xl font-bold text-primary">
                 Мастер Час
               </CardTitle>
-              <CardDescription>
-                {authMode === "login" ? "Войдите в свой аккаунт" : "Создайте новый аккаунт"}
+              <CardDescription className="text-muted-foreground">
+                {authMode === "login" ? t('loginToAccount') : t('createAccount')}
               </CardDescription>
             </CardHeader>
             
             <CardContent>
               <Tabs value={authMode} onValueChange={(v) => setAuthMode(v as "login" | "register")}>
                 <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="login">{t.login}</TabsTrigger>
-                  <TabsTrigger value="register">{t.register}</TabsTrigger>
+                  <TabsTrigger value="login">{t('login')}</TabsTrigger>
+                  <TabsTrigger value="register">{t('register')}</TabsTrigger>
                 </TabsList>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -305,7 +237,7 @@ export default function Auth() {
                         onClick={() => setUserType("client")}
                       >
                         <User className="w-4 h-4 mr-2" />
-                        {t.client}
+                        {t('client')}
                       </Button>
                       <Button
                         type="button"
@@ -314,13 +246,13 @@ export default function Auth() {
                         onClick={() => setUserType("master")}
                       >
                         <Wrench className="w-4 h-4 mr-2" />
-                        {t.master}
+                        {t('master')}
                       </Button>
                     </div>
                   )}
                   
                   <div className="space-y-2">
-                    <Label htmlFor="email">{t.email}</Label>
+                    <Label htmlFor="email" className="text-foreground">{t('email')}</Label>
                     <Input
                       id="email"
                       type="email"
@@ -328,47 +260,51 @@ export default function Auth() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      className="bg-background text-foreground border-input"
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="password">{t.password}</Label>
+                    <Label htmlFor="password" className="text-foreground">{t('password')}</Label>
                     <Input
                       id="password"
                       type="password"
-                      placeholder="Минимум 6 символов"
+                      placeholder="••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      className="bg-background text-foreground border-input"
                     />
                   </div>
                   
                   {authMode === "register" && (
                     <>
                       <div className="space-y-2">
-                        <Label htmlFor="fullName">{t.fullName}</Label>
+                        <Label htmlFor="fullName" className="text-foreground">{t('fullName')}</Label>
                         <Input
                           id="fullName"
                           placeholder="Иван Иванов"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           required
+                          className="bg-background text-foreground border-input"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="phone">{t.phone}</Label>
+                        <Label htmlFor="phone" className="text-foreground">{t('phone')}</Label>
                         <Input
                           id="phone"
                           placeholder="+992XXXXXXXXX"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           required
+                          className="bg-background text-foreground border-input"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="age">{t.age}</Label>
+                        <Label htmlFor="age" className="text-foreground">{t('age')}</Label>
                         <Input
                           id="age"
                           type="number"
@@ -377,14 +313,15 @@ export default function Auth() {
                           onChange={(e) => setAge(e.target.value)}
                           min="18"
                           max="80"
+                          className="bg-background text-foreground border-input"
                         />
                       </div>
                       
                       {userType === "master" && (
                         <>
                           <div className="space-y-2">
-                            <Label>{t.categories}</Label>
-                            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto p-2 border rounded-lg">
+                            <Label className="text-foreground">{t('categories')}</Label>
+                            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto p-2 border border-border rounded-lg bg-background">
                               {serviceCategories.map((cat) => (
                                 <div key={cat.id} className="flex items-center space-x-2">
                                   <Checkbox
@@ -394,9 +331,9 @@ export default function Auth() {
                                   />
                                   <label
                                     htmlFor={cat.id}
-                                    className="text-sm cursor-pointer"
+                                    className="text-sm cursor-pointer text-foreground"
                                   >
-                                    {cat.label}
+                                    {t(cat.labelKey)}
                                   </label>
                                 </div>
                               ))}
@@ -404,12 +341,13 @@ export default function Auth() {
                           </div>
                           
                           <div className="space-y-2">
-                            <Label htmlFor="experience">{t.experience}</Label>
+                            <Label htmlFor="experience" className="text-foreground">{t('experience')}</Label>
                             <Input
                               id="experience"
                               placeholder="5 лет работы электриком"
                               value={experience}
                               onChange={(e) => setExperience(e.target.value)}
+                              className="bg-background text-foreground border-input"
                             />
                           </div>
                         </>
@@ -425,14 +363,14 @@ export default function Auth() {
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Загрузка...
+                        {t('loading')}
                       </>
                     ) : authMode === "login" ? (
-                      t.submit
+                      t('submit')
                     ) : userType === "master" ? (
-                      t.submitMaster
+                      t('submitMaster')
                     ) : (
-                      t.submitRegister
+                      t('submitRegister')
                     )}
                   </Button>
                 </form>
