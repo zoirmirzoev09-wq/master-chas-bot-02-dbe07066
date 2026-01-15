@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
-export type Language = "ru" | "tj" | "en";
+type Language = "ru" | "tj" | "en";
 
 interface LanguageContextType {
   language: Language;
@@ -8,7 +8,7 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const translations: Record<Language, Record<string, string>> = {
+const translations = {
   ru: {
     // Header
     heroTitle: "Вызов мастера за 1 час",
@@ -75,119 +75,6 @@ const translations: Record<Language, Record<string, string>> = {
     footerEmail: "Email",
     footerDistricts: "Районы работы",
     footerRights: "© 2025 Мастер Час. Все права защищены",
-
-    // Auth
-    login: "Вход",
-    register: "Регистрация",
-    client: "Я клиент",
-    master: "Я мастер",
-    email: "Email",
-    password: "Пароль",
-    fullName: "Полное имя",
-    phone: "Телефон",
-    age: "Возраст",
-    categories: "Категории услуг",
-    experience: "Опыт работы",
-    submit: "Войти",
-    submitRegister: "Зарегистрироваться",
-    submitMaster: "Отправить заявку",
-    welcome: "Добро пожаловать!",
-    loginSuccess: "Вы успешно вошли в систему",
-    registerSuccess: "Регистрация успешна!",
-    masterSuccess: "Заявка отправлена!",
-    masterSuccessText: "Мы свяжемся с вами в течение 24 часов для проверки",
-    loading: "Загрузка...",
-    validationError: "Ошибка валидации",
-    checkData: "Проверьте введённые данные",
-    enterName: "Введите имя",
-    selectCategory: "Выберите хотя бы одну категорию услуг",
-    pendingApproval: "Ожидание подтверждения",
-    pendingApprovalText: "Ваша регистрация ещё не подтверждена администратором",
-    accessDenied: "Доступ запрещён",
-    accessDeniedText: "Ваша регистрация была отклонена",
-    error: "Ошибка",
-    emailExists: "Этот email уже зарегистрирован",
-    invalidCredentials: "Неверный email или пароль",
-    loginToAccount: "Войдите в свой аккаунт",
-    createAccount: "Создайте новый аккаунт",
-    registrationPending: "Ваша регистрация отправлена на проверку администратору",
-
-    // Header
-    back: "На главную",
-    profile: "Личный кабинет",
-    logout: "Выйти",
-    loginBtn: "Вход",
-    admin: "Админ-панель",
-    masterCabinet: "Кабинет мастера",
-    clientCabinet: "Кабинет клиента",
-
-    // Cabinet
-    myProfile: "Мой профиль",
-    myOrders: "Мои заказы",
-    orderNumber: "Заказ №",
-    noOrders: "У вас пока нет заказов",
-    completedOrders: "Завершённых заказов",
-    leaveReview: "Оставить отзыв",
-    status: "Статус",
-    date: "Дата",
-    price: "Цена",
-
-    // Order statuses
-    statusPending: "Ожидает",
-    statusInProgress: "В работе",
-    statusCompleted: "Выполнен",
-    statusCancelled: "Отменён",
-    statusNew: "Новый",
-
-    // Admin
-    adminPanel: "Панель администратора",
-    users: "Пользователи",
-    orders: "Заказы",
-    masters: "Мастера",
-    applications: "Заявки",
-    statistics: "Статистика",
-    settings: "Настройки",
-    approve: "Одобрить",
-    reject: "Отклонить",
-    block: "Заблокировать",
-    unblock: "Разблокировать",
-    view: "Просмотр",
-    edit: "Редактировать",
-    delete: "Удалить",
-    search: "Поиск",
-    filter: "Фильтр",
-    all: "Все",
-    active: "Активные",
-    pending: "Ожидающие",
-    rejected: "Отклонённые",
-    blocked: "Заблокированные",
-    approved: "Одобренные",
-
-    // Master cabinet
-    masterDashboard: "Панель мастера",
-    assignedOrders: "Назначенные заказы",
-    earnings: "Заработок",
-    rating: "Рейтинг",
-    noAssignedOrders: "Нет назначенных заказов",
-    applicationPending: "Ваша заявка на рассмотрении",
-    applicationRejected: "Ваша заявка была отклонена",
-    becomeMaster: "Стать мастером",
-    accountBlocked: "Ваш аккаунт заблокирован",
-
-    // Create order
-    createOrder: "Создать заказ",
-    selectService: "Выберите услугу",
-    selectDateTime: "Выберите дату и время",
-    enterAddress: "Введите адрес",
-    enterComment: "Дополнительный комментарий",
-    selectBudget: "Бюджет",
-    orderCreated: "Заказ создан!",
-    orderCreatedText: "Мы скоро свяжемся с вами",
-
-    // Theme
-    lightMode: "Светлая тема",
-    darkMode: "Тёмная тема",
-    systemMode: "Системная тема",
   },
   tj: {
     // Header
@@ -255,119 +142,6 @@ const translations: Record<Language, Record<string, string>> = {
     footerEmail: "Почтаи электронӣ",
     footerDistricts: "Ноҳияҳои кор",
     footerRights: "© 2025 Мастер Час. Ҳамаи ҳуқуқҳо ҳифз шудаанд",
-
-    // Auth
-    login: "Вуруд",
-    register: "Сабт",
-    client: "Ман муштарӣ",
-    master: "Ман устод",
-    email: "Email",
-    password: "Рамз",
-    fullName: "Номи пурра",
-    phone: "Телефон",
-    age: "Синну сол",
-    categories: "Категорияҳои хидматрасонӣ",
-    experience: "Таҷрибаи корӣ",
-    submit: "Даромадан",
-    submitRegister: "Сабт кардан",
-    submitMaster: "Фиристодани дархост",
-    welcome: "Хуш омадед!",
-    loginSuccess: "Шумо бо муваффақият ворид шудед",
-    registerSuccess: "Сабт бо муваффақият!",
-    masterSuccess: "Дархост фиристода шуд!",
-    masterSuccessText: "Мо дар давоми 24 соат бо шумо тамос мегирем",
-    loading: "Интизор шавед...",
-    validationError: "Хатои тасдиқ",
-    checkData: "Маълумоти воридшударо тафтиш кунед",
-    enterName: "Номро ворид кунед",
-    selectCategory: "Ақаллан як категорияро интихоб кунед",
-    pendingApproval: "Дар интизори тасдиқ",
-    pendingApprovalText: "Сабти шумо ҳанӯз аз ҷониби администратор тасдиқ нашудааст",
-    accessDenied: "Дастрасӣ манъ аст",
-    accessDeniedText: "Сабти шумо рад карда шуд",
-    error: "Хато",
-    emailExists: "Ин email аллакай сабт шудааст",
-    invalidCredentials: "Email ё рамзи нодуруст",
-    loginToAccount: "Ба аккаунти худ ворид шавед",
-    createAccount: "Аккаунти нав эҷод кунед",
-    registrationPending: "Сабти шумо барои тафтиш ба администратор фиристода шуд",
-
-    // Header
-    back: "Ба саҳифаи асосӣ",
-    profile: "Кабинети шахсӣ",
-    logout: "Баромад",
-    loginBtn: "Вуруд",
-    admin: "Панели администратор",
-    masterCabinet: "Кабинети устод",
-    clientCabinet: "Кабинети муштарӣ",
-
-    // Cabinet
-    myProfile: "Профили ман",
-    myOrders: "Фармоишҳои ман",
-    orderNumber: "Фармоиш №",
-    noOrders: "Шумо ҳанӯз фармоиш надоред",
-    completedOrders: "Фармоишҳои анҷомёфта",
-    leaveReview: "Баҳо гузоштан",
-    status: "Ҳолат",
-    date: "Сана",
-    price: "Нарх",
-
-    // Order statuses
-    statusPending: "Интизорӣ",
-    statusInProgress: "Дар кор",
-    statusCompleted: "Иҷро шуд",
-    statusCancelled: "Бекор шуд",
-    statusNew: "Нав",
-
-    // Admin
-    adminPanel: "Панели администратор",
-    users: "Истифодабарандагон",
-    orders: "Фармоишҳо",
-    masters: "Устодон",
-    applications: "Дархостҳо",
-    statistics: "Омор",
-    settings: "Танзимот",
-    approve: "Тасдиқ кардан",
-    reject: "Рад кардан",
-    block: "Баста кардан",
-    unblock: "Кушодан",
-    view: "Дидан",
-    edit: "Таҳрир",
-    delete: "Нест кардан",
-    search: "Ҷустуҷӯ",
-    filter: "Филтр",
-    all: "Ҳама",
-    active: "Фаъол",
-    pending: "Интизорӣ",
-    rejected: "Рад шуда",
-    blocked: "Баста шуда",
-    approved: "Тасдиқ шуда",
-
-    // Master cabinet
-    masterDashboard: "Панели устод",
-    assignedOrders: "Фармоишҳои таъин шуда",
-    earnings: "Даромад",
-    rating: "Рейтинг",
-    noAssignedOrders: "Фармоиши таъиншуда нест",
-    applicationPending: "Дархости шумо дар баррасӣ аст",
-    applicationRejected: "Дархости шумо рад карда шуд",
-    becomeMaster: "Устод шудан",
-    accountBlocked: "Аккаунти шумо баста шудааст",
-
-    // Create order
-    createOrder: "Фармоиш эҷод кардан",
-    selectService: "Хидматро интихоб кунед",
-    selectDateTime: "Сана ва вақтро интихоб кунед",
-    enterAddress: "Суроғаро ворид кунед",
-    enterComment: "Шарҳи иловагӣ",
-    selectBudget: "Буҷет",
-    orderCreated: "Фармоиш эҷод шуд!",
-    orderCreatedText: "Мо зуд бо шумо тамос мегирем",
-
-    // Theme
-    lightMode: "Мавзӯи равшан",
-    darkMode: "Мавзӯи торик",
-    systemMode: "Мавзӯи система",
   },
   en: {
     // Header
@@ -437,148 +211,16 @@ const translations: Record<Language, Record<string, string>> = {
     footerEmail: "Email",
     footerDistricts: "Service Areas",
     footerRights: "© 2025 Master Chas. All rights reserved",
-
-    // Auth
-    login: "Login",
-    register: "Register",
-    client: "I'm a client",
-    master: "I'm a master",
-    email: "Email",
-    password: "Password",
-    fullName: "Full Name",
-    phone: "Phone",
-    age: "Age",
-    categories: "Service Categories",
-    experience: "Work Experience",
-    submit: "Sign In",
-    submitRegister: "Register",
-    submitMaster: "Submit Application",
-    welcome: "Welcome!",
-    loginSuccess: "You have successfully logged in",
-    registerSuccess: "Registration successful!",
-    masterSuccess: "Application submitted!",
-    masterSuccessText: "We will contact you within 24 hours for verification",
-    loading: "Loading...",
-    validationError: "Validation Error",
-    checkData: "Please check the entered data",
-    enterName: "Enter your name",
-    selectCategory: "Select at least one service category",
-    pendingApproval: "Pending Approval",
-    pendingApprovalText: "Your registration has not yet been confirmed by the administrator",
-    accessDenied: "Access Denied",
-    accessDeniedText: "Your registration was rejected",
-    error: "Error",
-    emailExists: "This email is already registered",
-    invalidCredentials: "Invalid email or password",
-    loginToAccount: "Log in to your account",
-    createAccount: "Create a new account",
-    registrationPending: "Your registration has been sent for administrator review",
-
-    // Header
-    back: "Back to Home",
-    profile: "My Account",
-    logout: "Logout",
-    loginBtn: "Login",
-    admin: "Admin Panel",
-    masterCabinet: "Master Cabinet",
-    clientCabinet: "Client Cabinet",
-
-    // Cabinet
-    myProfile: "My Profile",
-    myOrders: "My Orders",
-    orderNumber: "Order #",
-    noOrders: "You don't have any orders yet",
-    completedOrders: "Completed Orders",
-    leaveReview: "Leave Review",
-    status: "Status",
-    date: "Date",
-    price: "Price",
-
-    // Order statuses
-    statusPending: "Pending",
-    statusInProgress: "In Progress",
-    statusCompleted: "Completed",
-    statusCancelled: "Cancelled",
-    statusNew: "New",
-
-    // Admin
-    adminPanel: "Admin Panel",
-    users: "Users",
-    orders: "Orders",
-    masters: "Masters",
-    applications: "Applications",
-    statistics: "Statistics",
-    settings: "Settings",
-    approve: "Approve",
-    reject: "Reject",
-    block: "Block",
-    unblock: "Unblock",
-    view: "View",
-    edit: "Edit",
-    delete: "Delete",
-    search: "Search",
-    filter: "Filter",
-    all: "All",
-    active: "Active",
-    pending: "Pending",
-    rejected: "Rejected",
-    blocked: "Blocked",
-    approved: "Approved",
-
-    // Master cabinet
-    masterDashboard: "Master Dashboard",
-    assignedOrders: "Assigned Orders",
-    earnings: "Earnings",
-    rating: "Rating",
-    noAssignedOrders: "No assigned orders",
-    applicationPending: "Your application is under review",
-    applicationRejected: "Your application was rejected",
-    becomeMaster: "Become a Master",
-    accountBlocked: "Your account is blocked",
-
-    // Create order
-    createOrder: "Create Order",
-    selectService: "Select Service",
-    selectDateTime: "Select Date & Time",
-    enterAddress: "Enter Address",
-    enterComment: "Additional Comment",
-    selectBudget: "Budget",
-    orderCreated: "Order Created!",
-    orderCreatedText: "We will contact you soon",
-
-    // Theme
-    lightMode: "Light Mode",
-    darkMode: "Dark Mode",
-    systemMode: "System Theme",
   },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const LANGUAGE_STORAGE_KEY = "masterChas_language";
-
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
-      if (saved && ["ru", "tj", "en"].includes(saved)) {
-        return saved as Language;
-      }
-    }
-    return "ru";
-  });
-
-  useEffect(() => {
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
-    document.documentElement.lang = language;
-  }, [language]);
-
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-  };
+  const [language, setLanguage] = useState<Language>("ru");
 
   const t = (key: string): string => {
-    return translations[language][key] || key;
+    return translations[language][key as keyof typeof translations.ru] || key;
   };
 
   return (
@@ -595,5 +237,3 @@ export const useLanguage = () => {
   }
   return context;
 };
-
-export { translations };
