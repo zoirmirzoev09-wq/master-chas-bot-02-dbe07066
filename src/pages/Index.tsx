@@ -1,24 +1,20 @@
-import { Hero } from "@/components/Hero";
-import { Services } from "@/components/Services";
-import { HowItWorks } from "@/components/HowItWorks";
+import { MainHeader } from "@/components/layout/MainHeader";
+import { HeroSection } from "@/components/home/HeroSection";
+import { CategoriesSection } from "@/components/home/CategoriesSection";
+import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { QuickOrder } from "@/components/QuickOrder";
 import { Footer } from "@/components/Footer";
-import { LanguageProvider } from "@/contexts/LanguageContext";
-import { ThemeProvider } from "next-themes";
 
 const Index = () => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
-      <LanguageProvider>
-        <div className="min-h-screen bg-background">
-      <Hero />
-      <Services />
-      <HowItWorks />
+    <div className="min-h-screen bg-background">
+      <MainHeader />
+      <HeroSection />
+      <CategoriesSection />
+      <HowItWorksSection />
       <QuickOrder />
       <Footer />
-        </div>
-      </LanguageProvider>
-    </ThemeProvider>
+    </div>
   );
 };
 
