@@ -18,6 +18,7 @@ import HowItWorksPage from "./pages/HowItWorksPage";
 import Categories from "./pages/Categories";
 import Contacts from "./pages/Contacts";
 import BecomeMaster from "./pages/BecomeMaster";
+import Documentation from "./pages/Documentation";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
                   <Route path="/cabinet/client" element={<ClientCabinet />} />
                   <Route path="/cabinet/master" element={<MasterCabinet />} />
                   <Route path="/admin" element={<AdminPanel />} />
+                  <Route path="/docs" element={<Documentation />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </PageTransition>

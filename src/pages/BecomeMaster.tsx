@@ -67,7 +67,7 @@ const BecomeMaster = () => {
 
           {/* Application Form */}
           <div className="max-w-2xl mx-auto">
-            <MasterApplicationForm />
+            <MasterApplicationForm userId="" />
           </div>
         </div>
       </main>
